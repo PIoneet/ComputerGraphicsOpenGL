@@ -9,6 +9,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ComputerGraphicsOpenGL2", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ComputerGraphicsOpenGL3", "ComputerGraphicsOpenGL3\ComputerGraphicsOpenGL3.vcxproj", "{EF97AAB9-1CDD-4D76-92FF-C4E63651C555}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ComputerGraphicsOpenGL4", "ComputerGraphicsOpenGL4\ComputerGraphicsOpenGL4.vcxproj", "{47067AED-B32F-4B81-8F28-D4193C270872}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ComputerGraphicsOpenGL5", "ComputerGraphicsOpenGL5\ComputerGraphicsOpenGL5.vcxproj", "{F2F570BB-BAC5-4996-9304-A5D4F4EA5639}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +45,22 @@ Global
 		{EF97AAB9-1CDD-4D76-92FF-C4E63651C555}.Release|x64.Build.0 = Release|x64
 		{EF97AAB9-1CDD-4D76-92FF-C4E63651C555}.Release|x86.ActiveCfg = Release|Win32
 		{EF97AAB9-1CDD-4D76-92FF-C4E63651C555}.Release|x86.Build.0 = Release|Win32
+		{47067AED-B32F-4B81-8F28-D4193C270872}.Debug|x64.ActiveCfg = Debug|x64
+		{47067AED-B32F-4B81-8F28-D4193C270872}.Debug|x64.Build.0 = Debug|x64
+		{47067AED-B32F-4B81-8F28-D4193C270872}.Debug|x86.ActiveCfg = Debug|Win32
+		{47067AED-B32F-4B81-8F28-D4193C270872}.Debug|x86.Build.0 = Debug|Win32
+		{47067AED-B32F-4B81-8F28-D4193C270872}.Release|x64.ActiveCfg = Release|x64
+		{47067AED-B32F-4B81-8F28-D4193C270872}.Release|x64.Build.0 = Release|x64
+		{47067AED-B32F-4B81-8F28-D4193C270872}.Release|x86.ActiveCfg = Release|Win32
+		{47067AED-B32F-4B81-8F28-D4193C270872}.Release|x86.Build.0 = Release|Win32
+		{F2F570BB-BAC5-4996-9304-A5D4F4EA5639}.Debug|x64.ActiveCfg = Debug|x64
+		{F2F570BB-BAC5-4996-9304-A5D4F4EA5639}.Debug|x64.Build.0 = Debug|x64
+		{F2F570BB-BAC5-4996-9304-A5D4F4EA5639}.Debug|x86.ActiveCfg = Debug|Win32
+		{F2F570BB-BAC5-4996-9304-A5D4F4EA5639}.Debug|x86.Build.0 = Debug|Win32
+		{F2F570BB-BAC5-4996-9304-A5D4F4EA5639}.Release|x64.ActiveCfg = Release|x64
+		{F2F570BB-BAC5-4996-9304-A5D4F4EA5639}.Release|x64.Build.0 = Release|x64
+		{F2F570BB-BAC5-4996-9304-A5D4F4EA5639}.Release|x86.ActiveCfg = Release|Win32
+		{F2F570BB-BAC5-4996-9304-A5D4F4EA5639}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
