@@ -6,22 +6,50 @@
 #include <fstream>
 #include <string>
 
+#include <random>
+
+std::random_device rd;
+std::mt19937 gen(rd());
+
+std::uniform_real_distribution<float> disColor{ 0.0f, 1.0f };
+std::uniform_real_distribution<float> disSize{ 0.05f, 0.12f };
+
 #define WIDTH  1300.0
 #define HEIGHT 1300.0
 
 
+struct Shape
+{
+    GLuint vao;
+    GLuint vbo;
 
+    GLenum mode;
+
+    int vertexCount{};
+    glm::vec2 pos;
+
+    float size;
+
+    glm::vec2 velocity;
+
+};
+
+
+
+void addShape(int type);
 void make_vertexShaders();
 void make_fragmentShaders();
 GLuint make_shaderProgram();
 std::string filetobuf(const char* file);
 
+void TransformScreenToNDC(double& i, double& j);
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+
 GLvoid DrawScene();
-GLvoid Reshape(int w, int h);
 
 
-//--- 필요한변수선언
-GLint width, height;
+
 GLuint shaderProgramID;
 GLuint vertexShader;
 GLuint fragmentShader;
@@ -39,7 +67,6 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    // CORE_PROFILE로 변경해서 glRect 못쓴다. 
 
 
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "First Try: Window", nullptr, nullptr);
@@ -60,10 +87,10 @@ int main()
     glViewport(0, 0, WIDTH, HEIGHT);
 
 
-    //glfwSetMouseButtonCallback(window, MouseButtonCallback);
+    glfwSetKeyCallback(window, KeyCallback);
+    glfwSetMouseButtonCallback(window, MouseButtonCallback);
 
 
-    //--- 세이더읽어와서세이더프로그램만들기
     make_vertexShaders();
     make_fragmentShaders();
     shaderProgramID = make_shaderProgram();
@@ -196,6 +223,49 @@ std::string filetobuf(const char* file)
     return source;
 }
 
+
+
+
+void TransformScreenToNDC(double& i, double& j)
+{
+    double transHalfWidth = 2 / WIDTH;
+    double transHalfHeight = 2 / HEIGHT;
+
+    i = i * transHalfWidth - 1;
+    j = -1 * (j * transHalfHeight) + 1;
+}
+
+
+
+
+
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (action != GLFW_PRESS) return; // 누르는 순간만 처리
+
+    switch (key)
+    {
+
+    case GLFW_KEY_Q:
+        glfwSetWindowShouldClose(window, GLFW_TRUE);
+        break;
+    }
+}
+
+
+void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+    {
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+
+        TransformScreenToNDC(xpos, ypos);
+
+        glm::vec2 mousePos{ xpos, ypos };
+    }
+}
 
 
 void DrawScene()
