@@ -203,6 +203,7 @@ void diagnolMove(int focusRect, double& prevFrame)
     
     childVec[3].velocity = glm::vec2{ -1 * childVec[2].velocity.x, -1 * childVec[2].velocity.y };
 
+
     for (int i = 0; i < childVec.size(); ++i)
     {
         double dealth = currentFrame - prevFrame;
@@ -327,7 +328,7 @@ void xyDiagnolMove(int focusRect, double& prevFrame)
 
             // 색상 계산은 기존 그대로
             if (randRects[focusRect].getDarker)
-                childVec[i].rgb = randRects[focusRect].rgbOrigin * (1.0f - progress);
+                childVec[i].rgb = randRects[focusRect].rgbOrigin * (1.0f - progress); //progress가 1.0에 가까워지면 어두움.
             else
                 childVec[i].rgb = randRects[focusRect].rgbOrigin + (glm::vec3(1.0f) - randRects[focusRect].rgbOrigin) * progress;
         }

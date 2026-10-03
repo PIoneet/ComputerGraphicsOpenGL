@@ -263,3 +263,46 @@ glBindVertexArray(tr.vao);
 glGenBuffers(1, &tr.vbo);
 
 미리 구조체에 저장해둔 vao, vbo 안 쓰고 새로 선언된거 쓰니까 확대 축소가 안되는 버그가 있었습니다. 
+
+
+
+
+# 2026 10 03 
+
+else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
+    {
+        Dragged = false;
+
+        Shape& DraggedSh = randShapes[pickedIdx];
+
+        for (int i = 0; i < board.size(); ++i)
+        {
+            for (int j = 0; j < board[i].slot.size(); ++j)
+            {
+                Shape& sh = board[i].slot[j];
+
+                if (sh.mode == GL_TRIANGLES) continue; // 이미 채워진 슬롯은 건너뜀
+                if (DraggedSh.type != sh.type) continue;
+
+                float dist = glm::length(DraggedSh.pos - sh.pos);
+
+                if (dist <= sh.size) // 스냅 허용 반경
+                {
+                    DraggedSh.isDraw = false;
+                    sh.mode = GL_TRIANGLES;
+                    return;
+                }
+            }
+        }
+    }
+
+기존에는 mousePos 와 도형의 중점을 빼서 로컬 벡터를 구해서 삼각형, 사각형 피킹 처리를 해왔고
+Release 즉 드래그 하다가 도형에서 손을 땟을떄 똑같은 방식으로 충돌 처리를 하려고 했는데 피킹이 되기도 하고
+되지 않기도 하는 문제가 발생했다. 
+
+정확한 원인은 현재 파악 중이지만 GetTriangleLocal()에서 가져온 좌표 자체가 원점 기준이 아니라 
+좌표계가 다른 좌표들끼리 외적해서 문제가 생겼던 것 같다. 
+
+glm::length로 도형의 로컬 중점에서 드래그하는 도형의 중점까지의 길이를 구해서 그 길이가 반지름보다 작았을때
+충돌했다고 생각하자는 보다 간편하고 단순한 로직으로 변경하니 문제가 손쉽게 해결됐고 그걸 처음 알게 되었다. 
+

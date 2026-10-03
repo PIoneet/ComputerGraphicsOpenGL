@@ -348,7 +348,6 @@ void originMove(double& prevFrame)
     
     if(arriveFlag)
         currentAnimation = 0;
- 
 }
 
 
