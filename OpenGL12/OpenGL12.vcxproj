@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{75ca77be-c5b9-4132-826b-761e892c8e4f}</ProjectGuid>
-    <RootNamespace>OpenGL11</RootNamespace>
+    <ProjectGuid>{bb51fde7-9b52-473b-b62c-5be9b9b05698}</ProjectGuid>
+    <RootNamespace>OpenGL12</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -125,11 +125,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="PS.glsl" />
-    <None Include="VS.glsl" />
+    <ClCompile Include="file12.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="file11.cpp" />
+    <None Include="PS.glsl" />
+    <None Include="VS.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -39,6 +39,7 @@ std::uniform_int_distribution<int> disDir{ 1,2 };
 // 세로로 모양판 5개 나열하면 될듯. 
 
 enum ShapeType {
+
     SQUARE,
     EQUI_TRI,           // 일반적 정삼각형
     
@@ -60,6 +61,7 @@ struct Shape
     GLuint vbo{};
 
     int vertexCount{};
+
     glm::vec2 pos{};
     glm::vec3 rgb{};
 

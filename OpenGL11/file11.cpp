@@ -30,11 +30,11 @@ std::uniform_int_distribution<int> disType{ 1, 3 };               // TRIANGLE, S
 - 3.2 마지막 칸에 닿을 때까지 계속 이동
 */
 
-const int    GRID_N = 20;
-const float  CELL = 2.0f / GRID_N;        // 한 칸 크기 (NDC) = 0.1
+const int    GRID_NUM = 20;
+const float  CELL = 2.0f / GRID_NUM;        // 한 칸 크기 0.1
 const float  CELL_HALF = CELL / 2.0f;
-const double moveInterval = 0.15;         // 주인공 이동 간격(초) → 속도
-const double EFFECT_TIME = 0.6;           // 충돌 효과 지속 시간(초)
+const double moveInterval = 0.15;         // 주인공 이동 간격
+const double EFFECT_TIME = 0.6;           // 충돌 지속
 
 enum ShapeType
 {
@@ -92,7 +92,7 @@ GLuint shaderProgramID;
 GLuint vertexShader;
 GLuint fragmentShader;
 
-std::array<std::array<Cell, GRID_N>, GRID_N> grid;   // grid[row][col]
+std::array<std::array<Cell, GRID_NUM>, GRID_NUM> grid;   // grid[row][col]
 
 GLint offsetLoc{};
 GLint offsetSize{};
@@ -106,7 +106,7 @@ std::vector<Effect> effects;
 bool moving{ false };
 bool finished{ false };
 int dirX{ 1 };
-double lastMoveTime{};
+double lastTime{};
 
 
 int main()
@@ -155,13 +155,13 @@ int main()
         double now = glfwGetTime();
 
         // 이동 간격이 지났으면 한 칸 이동
-        if (moving && now - lastMoveTime >= moveInterval)
+        if (moving && now - lastTime >= moveInterval)
         {
             StepHero();
-            lastMoveTime = now;
+            lastTime = now;
         }
 
-        // 효과 시간이 끝난 것은 제거
+        // 충돌 시간이 끝난 것은 제거
         effects.erase(std::remove_if(effects.begin(), effects.end(),
             [now](const Effect& e) { return now - e.startTime >= EFFECT_TIME; }), effects.end());
 
@@ -318,7 +318,7 @@ Mesh makeMesh(const std::vector<float>& data)
 }
 
 
-// 도형은 [-1,1] 단위 좌표로 한 번만 만들고, uSize/uOffset으로 크기·위치를 바꿔 재사용한다.
+// 도형은 [-1,1] 단위 좌표로 한 번만 만들고, uSize/uOffset으로 크기,위치를 바꿔서 재사용함.
 void InitMeshes()
 {
     meshTriangle = makeMesh({ -1.0f,-1.0f,  1.0f,-1.0f,  0.0f, 1.0f });
@@ -327,9 +327,8 @@ void InitMeshes()
                              1.0f,-1.0f,  1.0f, 1.0f, -1.0f, 1.0f });
     meshOutline = makeMesh({ -1.0f,-1.0f,  1.0f,-1.0f,  1.0f, 1.0f, -1.0f, 1.0f });   // GL_LINE_LOOP용
 
-    // 보드판 격자선 (NDC 좌표 그대로 사용 → 그릴 때 size=1, offset=0)
     std::vector<float> lines;
-    for (int i = 0; i <= GRID_N; ++i)
+    for (int i = 0; i <= GRID_NUM; ++i)
     {
         float v = -1.0f + i * CELL;
         lines.insert(lines.end(), { v, -1.0f, v, 1.0f });     // 세로선
@@ -351,25 +350,26 @@ const Mesh& GetMesh(ShapeType type)
 }
 
 
-// 칸 인덱스 (col,row) → 칸 중심 NDC 좌표. row 0이 화면 맨 위.
+
 glm::vec2 CellCenter(int col, int row)
 {
     return { -1.0f + (col + 0.5f) * CELL, 1.0f - (row + 0.5f) * CELL };
 }
 
 
-// 장애물을 칸마다 확률적으로 배치 (충분히 많이: 약 35%)
+
+
 void InitObstacles()
 {
-    for (int r = 0; r < GRID_N; ++r)
+    for (int r = 0; r < GRID_NUM; ++r)
     {
-        for (int c = 0; c < GRID_N; ++c)
+        for (int c = 0; c < GRID_NUM; ++c)
         {
             grid[r][c] = Cell{};
 
             if (r == 0 && c == 0) continue;              // 주인공 시작 칸은 비워둠
 
-            if (disProb(gen) < 0.35f) //대략 1/3의 확률이겠네. 
+            if (disProb(gen) < 0.35f)  
             {
                 grid[r][c].type = (ShapeType)disType(gen);
                 grid[r][c].size = disSize(gen);
@@ -391,12 +391,12 @@ void ResetGame()
 }
 
 
-// 지그재그: 짝수 행은 오른쪽으로, 홀수 행은 왼쪽으로 한 칸씩. 끝에 닿으면 한 줄 내려가며 방향 반전.
+
 void StepHero()
 {
     int nextCol = hero.col + dirX; // 인덱스 증가하는 느낌으로다가
 
-    if (nextCol >= 0 && nextCol < GRID_N)
+    if (nextCol >= 0 && nextCol < GRID_NUM)
     {
         hero.col = nextCol;
     }
@@ -409,8 +409,8 @@ void StepHero()
     CheckCollision();
 
     // 마지막 행의 진행 방향 끝 칸에 닿으면 종료
-    if (hero.row == GRID_N - 1 &&
-        ((dirX == 1 && hero.col == GRID_N - 1) || (dirX == -1 && hero.col == 0)))
+    if (hero.row == GRID_NUM - 1 &&
+        ((dirX == 1 && hero.col == GRID_NUM - 1) || (dirX == -1 && hero.col == 0)))
     {
         moving = false;
         finished = true;
@@ -418,7 +418,6 @@ void StepHero()
 }
 
 
-// 장애물이 있는 칸에 들어오면 주인공과 장애물의 모양을 서로 맞바꾸고 효과를 추가
 void CheckCollision()
 {
     Cell& c = grid[hero.row][hero.col];
@@ -456,7 +455,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         if (!finished)
         {
             moving = !moving;
-            if (moving) lastMoveTime = glfwGetTime();
+            if (moving) lastTime = glfwGetTime();
         }
         break;
     case GLFW_KEY_R:
@@ -481,16 +480,16 @@ void DrawScene()
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    //--- 셰이더프로그램사용
+    
     glUseProgram(shaderProgramID);
 
-    // 1) 보드판 격자선
+
     DrawMesh(meshGrid, GL_LINES, { 0.0f, 0.0f }, 1.0f, { 0.0f, 0.0f, 0.0f });
 
-    // 2) 장애물
-    for (int r = 0; r < GRID_N; ++r)
+    
+    for (int r = 0; r < GRID_NUM; ++r)
     {
-        for (int c = 0; c < GRID_N; ++c)
+        for (int c = 0; c < GRID_NUM; ++c)
         {
             const Cell& cell = grid[r][c];
             if (cell.type == NONE) continue;
@@ -499,10 +498,10 @@ void DrawScene()
         }
     }
 
-    // 3) 주인공
+ 
     DrawMesh(GetMesh(hero.type), GL_TRIANGLES, CellCenter(hero.col, hero.row), hero.size, hero.rgb);
 
-    // 4) 충돌 효과: 커지면서 흰색으로 옅어지는 빨간 테두리
+
     double now = glfwGetTime();
 
     for (const Effect& e : effects)

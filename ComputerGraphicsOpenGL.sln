@@ -27,6 +27,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGL10", "OpenGL10\OpenGL
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGL11", "OpenGL11\OpenGL11.vcxproj", "{75CA77BE-C5B9-4132-826B-761E892C8E4F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGL12", "OpenGL12\OpenGL12.vcxproj", "{BB51FDE7-9B52-473B-B62C-5BE9B9B05698}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGL13", "OpenGL13\OpenGL13.vcxproj", "{8255EAD4-7E08-46F8-B78E-40E297E4C0F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -131,6 +135,22 @@ Global
 		{75CA77BE-C5B9-4132-826B-761E892C8E4F}.Release|x64.Build.0 = Release|x64
 		{75CA77BE-C5B9-4132-826B-761E892C8E4F}.Release|x86.ActiveCfg = Release|Win32
 		{75CA77BE-C5B9-4132-826B-761E892C8E4F}.Release|x86.Build.0 = Release|Win32
+		{BB51FDE7-9B52-473B-B62C-5BE9B9B05698}.Debug|x64.ActiveCfg = Debug|x64
+		{BB51FDE7-9B52-473B-B62C-5BE9B9B05698}.Debug|x64.Build.0 = Debug|x64
+		{BB51FDE7-9B52-473B-B62C-5BE9B9B05698}.Debug|x86.ActiveCfg = Debug|Win32
+		{BB51FDE7-9B52-473B-B62C-5BE9B9B05698}.Debug|x86.Build.0 = Debug|Win32
+		{BB51FDE7-9B52-473B-B62C-5BE9B9B05698}.Release|x64.ActiveCfg = Release|x64
+		{BB51FDE7-9B52-473B-B62C-5BE9B9B05698}.Release|x64.Build.0 = Release|x64
+		{BB51FDE7-9B52-473B-B62C-5BE9B9B05698}.Release|x86.ActiveCfg = Release|Win32
+		{BB51FDE7-9B52-473B-B62C-5BE9B9B05698}.Release|x86.Build.0 = Release|Win32
+		{8255EAD4-7E08-46F8-B78E-40E297E4C0F8}.Debug|x64.ActiveCfg = Debug|x64
+		{8255EAD4-7E08-46F8-B78E-40E297E4C0F8}.Debug|x64.Build.0 = Debug|x64
+		{8255EAD4-7E08-46F8-B78E-40E297E4C0F8}.Debug|x86.ActiveCfg = Debug|Win32
+		{8255EAD4-7E08-46F8-B78E-40E297E4C0F8}.Debug|x86.Build.0 = Debug|Win32
+		{8255EAD4-7E08-46F8-B78E-40E297E4C0F8}.Release|x64.ActiveCfg = Release|x64
+		{8255EAD4-7E08-46F8-B78E-40E297E4C0F8}.Release|x64.Build.0 = Release|x64
+		{8255EAD4-7E08-46F8-B78E-40E297E4C0F8}.Release|x86.ActiveCfg = Release|Win32
+		{8255EAD4-7E08-46F8-B78E-40E297E4C0F8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
