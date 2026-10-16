@@ -25,7 +25,7 @@ const float SPACE_BOTTOM = -0.9f;
 const float BAND_CX = -0.5f;             // 점선 띠(판정 구간)
 const float BAND_CY = 0.0f;
 const float BAND_HALF_W = 0.4f;
-const float BAND_HALF_H = 0.12f;
+const float BAND_HALF_H = 0.45f;
 
 const float RECT_HALF_W = 0.1f;              // 사각형 반폭/반높이
 const float RECT_HALF_H = 0.05f;
@@ -332,9 +332,9 @@ void SpawnPair()
         r.pos = { SPACE_X[i], 0.8f };
         
         r.rgb = { disColor(gen), disColor(gen), disColor(gen) };
-        //r.vy = disSpeed(gen) * (disDir(gen) ? 1.0f : -1.0f);
+        r.vy = disSpeed(gen) * (disDir(gen) ? 1.0f : -1.0f);
 
-        r.vy = 0.85f * 1.0f;
+        //r.vy = 0.85f * 1.0f;
 
         r.state = MOVING;
         active[i] = r;
@@ -355,8 +355,10 @@ bool InBand(const Rect& r)
     float rectTop = r.pos.y + RECT_HALF_H;
     float rectBottom = r.pos.y - RECT_HALF_H;
 
-    float bandTop = BAND_CY + BAND_HALF_H;
-    float bandBottom = BAND_CY - BAND_HALF_H;
+    float bandTop = 2 * (BAND_CY + BAND_HALF_H);
+    float bandBottom = 2*(BAND_CY - BAND_HALF_H);
+
+    //BANC_CY = 2 * BAND_CY;
 
     
     return rectBottom <= bandTop && rectTop >= bandBottom;
@@ -482,11 +484,13 @@ void DrawScene()
     glm::vec3 bandColor = ready ? glm::vec3(0.0f, 0.7f, 0.2f) : glm::vec3(0.2f, 0.4f, 0.7f);
     DrawMesh(meshBand, GL_LINES, { BAND_CX, BAND_CY }, { BAND_HALF_W, BAND_HALF_H }, bandColor);
 
+
     // 3) 탑에 쌓인 사각형
     for (const Rect& r : stacked)
     {
         DrawMesh(meshSquare, GL_TRIANGLES, r.pos, { RECT_HALF_W, RECT_HALF_H }, r.rgb);
     }
+
 
     // 4) 쌓이는 중인 사각형
     if (!finished)

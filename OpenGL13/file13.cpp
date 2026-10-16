@@ -110,8 +110,11 @@ int main()
     pyramidMesh = makeMesh(MakePyramidData());
 
     ShowCubeFaces({ 0 });                          // 초기 상태
+    
+    
 
     while (!glfwWindowShouldClose(window)) {
+        
         DrawScene();
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -210,8 +213,7 @@ std::string filetobuf(const char* file)
 // ---------- 정점 데이터 (x,y,z,r,g,b) ----------
 std::vector<float> MakeAxisData()
 {
-    // TODO: 축 3개 x 정점 2개 = 6개. x 빨강, y 초록, z 파랑. (-1,0,0)~(1,0,0) 식으로 양방향
-
+    
     std::vector<float> axisData{1,0,0 , 1,0,0, -1,0,0, 1,0,0,
                                 0,1,0 , 0,1,0, 0,-1,0, 0,1,0,
                                 0,0,1 , 0,0,1, 0,0,-1, 0,0,1};
@@ -222,8 +224,6 @@ std::vector<float> MakeAxisData()
 
 std::vector<float> MakeCubeData()
 {
-    // TODO: pos[8], face[6][4], faceColor[6] 정의
-    //       면마다 삼각형 2개 (a,b,c / a,c,d) -> 총 36개 정점. 면 f의 정점은 f*6 ~ f*6+5
 
     std::vector<glm::vec3> pos{ { -0.3,-0.3,0.3}, {0.3,-0.3,0.3}, {0.3,0.3,0.3}, {-0.3,0.3,0.3},
         {-0.3,-0.3,-0.3}, {0.3,-0.3,-0.3}, {0.3,0.3,-0.3}, {-0.3,0.3,-0.3} };
@@ -270,8 +270,6 @@ std::vector<float> MakeCubeData()
 
 std::vector<float> MakePyramidData()
 {
-    // TODO: pos[5], side[4][3], bottom[4], 색 정의
-    //       옆면 4x3=12개 먼저, 바닥 6개 마지막 -> 총 18개
 
     std::vector<glm::vec3> pos{ { -0.3,-0.3,0.3}, {-0.3,-0.3,-0.3}, {0.3,-0.3,-0.3}, 
         {0.3,-0.3,0.3}, {0.0,0.3, 0.0}};
@@ -358,10 +356,10 @@ void DeleteMesh(Mesh& m)
 }
 
 
-// ---------- 변환 ----------
+
 glm::mat4 MakeTiltMatrix()
 {
-    // TODO: 단위 행렬에서 시작, x축 30도 -> y축 30도 순서로 rotate (정점에는 Ry가 먼저 적용)
+
     glm::mat4 base(1.0f);
 
     base = glm::rotate(base, glm::radians(30.0f), {1,0,0});
@@ -383,10 +381,9 @@ void SendModel(const glm::mat4& m)
 
 
 
-// ---------- 키 처리 ----------
+
 void ClearFaces()
 {
-    // TODO: cubeFace, pyramidFace 전부 false
 
     for (int i = 0; i < cubeFace.size(); ++i)
     {
@@ -404,7 +401,6 @@ void ClearFaces()
 // initalizer_list는 임시 배열 {}을 따로 복사 할당 안하고 있는 그대로 읽고 보여줌. 
 void ShowCubeFaces(std::initializer_list<int> faces)
 {
-    // TODO: ClearFaces(), showCube = true, 해당 면만 true
     ClearFaces(); 
     // 먼저 싹다 false로 초기화한다.
     showCube = true;
@@ -414,15 +410,12 @@ void ShowCubeFaces(std::initializer_list<int> faces)
 		cubeFace[*(faces.begin() + i)] = true;
 	}
 
-    
-
 }
 
 
 
 void ShowPyramidFaces(std::initializer_list<int> faces)
 {
-    // TODO: ClearFaces(), showCube = false, 해당 면만 true
     ClearFaces();
 
     showCube = false;
@@ -437,7 +430,6 @@ void ShowPyramidFaces(std::initializer_list<int> faces)
 
 void PickRandomCubeFaces()
 {
-    // TODO: 0~5 중 서로 다른 2개를 뽑아 ShowCubeFaces 호출 (c 키)
 
     int a = disRandCube(gen);
     int b = disRandCube(gen);
@@ -453,11 +445,10 @@ void PickRandomCubeFaces()
 
 void PickBottomAndRandomSide()
 {
-    // TODO: 바닥(4) + 옆면 0~3 중 하나를 뽑아 ShowPyramidFaces 호출 (t 키)
 
     int side = disRandPyramid(gen);
 
-    ShowPyramidFaces({ side , 4 });
+    ShowPyramidFaces({ 4, side });
 }
 
 
@@ -466,11 +457,6 @@ void PickBottomAndRandomSide()
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (action != GLFW_PRESS) return;
-
-    // TODO: Q 종료
-    // TODO: 1~6 -> ShowCubeFaces({n-1})
-    // TODO: 7,8,9,0 -> ShowPyramidFaces({0~3 중 해당 번호})
-    // TODO: C -> PickRandomCubeFaces(), T -> PickBottomAndRandomSide()
 
     switch (key)
     {
@@ -530,14 +516,9 @@ void DrawScene()
 
     glUseProgram(shaderProgramID);
 
-    // TODO: 축 -> SendModel(단위 행렬), bind axis VAO, glDrawArrays(GL_LINES, 0, 6)
-    // TODO: SendModel(MakeTiltMatrix())
-    // TODO: showCube면 cubeMesh bind 후 for i<6: cubeFace[i]면 glDrawArrays(GL_TRIANGLES, i*6, 6)
-    // TODO: 아니면 pyramidMesh bind 후 for i<5:
-    //       i<4 -> first=i*3, count=3 / i==4 -> first=12, count=6
-
     // 좌표축 먼저 그리기.
-    SendModel(glm::mat4(1.0f));
+    //glDisable(GL_DEPTH_TEST);
+    SendModel(MakeTiltMatrix());
     glLineWidth(3.0f);
     glBindVertexArray(axisMesh.vao);
 

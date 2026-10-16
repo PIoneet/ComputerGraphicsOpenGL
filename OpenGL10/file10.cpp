@@ -738,7 +738,7 @@ void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
 
                 float dist = glm::length(DraggedSh.pos - sh.pos);
 
-                if (dist <= sh.size) // 스냅 허용 반경
+                if (dist <= sh.size) 
                 {
                     DraggedSh.isDraw = false;
                     sh.mode = GL_TRIANGLES;
